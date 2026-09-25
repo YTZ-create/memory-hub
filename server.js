@@ -19,6 +19,8 @@ const MIME = {
 };
 
 let scanCache = null;
+let scanCacheAt = 0;
+const SCAN_CACHE_TTL = 30 * 1000; // 缓存 30 秒，过期后自动重新扫描，保证删除 AGENTS.md 等外部变动能反映出来
 let entryIndex = new Map(); // id -> entry
 
 function indexEntries(scan) {
@@ -35,8 +37,9 @@ function indexEntries(scan) {
 }
 
 function getScan(force) {
-  if (force || !scanCache) {
+  if (force || !scanCache || Date.now() - scanCacheAt > SCAN_CACHE_TTL) {
     scanCache = scanAll();
+    scanCacheAt = Date.now();
     indexEntries(scanCache);
   }
   return scanCache;
