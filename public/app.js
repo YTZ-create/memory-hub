@@ -10,7 +10,7 @@ let state = {
 };
 
 const $ = id => document.getElementById(id);
-const SOURCE_LABEL = { qoder: 'Qoder', claude: 'Claude', codex: 'Codex', trae: 'Trae', zcode: 'ZCode', marvis: 'Marvis' };
+const SOURCE_LABEL = { qoder: 'Qoder', claude: 'Claude', codex: 'Codex', trae: 'Trae', zcode: 'ZCode', marvis: 'Marvis', mimo: 'MiMo' };
 
 function toast(msg, isErr) {
   const t = $('toast');
