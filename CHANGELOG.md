@@ -6,15 +6,14 @@
 
 ### 新增
 
-- 接入小米 MiMo：扫描 `artifacts.db` 产物记录，按文件路径自动归到项目目录（OpenClaw、主目录已见条目）；其会话正文表 `evolve-transcript.db` 当前为空，扫描器已预埋，有数据后自动按会话提取
 - MCP Server（`mcp-server.js`，stdio 零依赖）：任何支持 MCP 的 Agent 可通过 `list_projects` / `recall` / `search` 三个工具实时查询本机记忆
 - Claude Code SessionEnd Hook（`notify-rescan.js`）：会话结束时自动触发记忆中枢重新扫描
 - 已将 memory-hub MCP 注册进 Claude Code（用户级）、Qoder（用户级）、ZCode（`~/.zcode/cli/config.json`）
 
 ### 说明
 
-- 经查证，ZCode 与小米 MiMo 原生读取 AGENTS.md，合并产物对它们直接生效
-- Trae 聊天记录存云端、VS Code Copilot 会话库为空、slock 仅 agent 人设文档——本机无可读取内容，如实不接入
+- 经查证，ZCode 原生读取 AGENTS.md，合并产物对它直接生效
+- 小米 MiMo 的对话记忆存于小米云端，本地仅有产物文件清单（非项目记忆），故不接入；Trae 聊天记录存云端、VS Code Copilot 会话库为空、slock 仅 agent 人设文档，同样无可读取内容
 
 ## [1.0.0] - 2026-09-25
 
