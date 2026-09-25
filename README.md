@@ -47,8 +47,35 @@ node server.js
 server.js       HTTP 服务与 API（scan / file / merge）
 lib/scan.js     各来源扫描与 slug 反查
 lib/merge.js    AGENTS.md 生成与指针文件写入
+mcp-server.js   MCP Server（供 Agent 实时查询记忆）
+notify-rescan.js  Claude Code SessionEnd Hook 入口
 public/         前端单页界面
 ```
+
+## MCP 接入（Agent 实时查询记忆）
+
+任何支持 MCP 的 Agent（Qoder、Claude Code、ZCode 等）都可接入 memory-hub，在工作时实时拉取记忆而非只在开头读一次 AGENTS.md。提供三个工具：
+
+- `list_projects`：列出所有扫描到的项目及各来源条数
+- `recall`：按项目名召回该项目全部记忆（含会话中的最初需求与最终产出）
+- `search`：跨来源关键词搜索
+
+在 Agent 的 MCP 配置中加入：
+
+```json
+{
+  "mcpServers": {
+    "memory-hub": {
+      "command": "node",
+      "args": ["C:\\Users\\zhiyutong\\Desktop\\memory-hub\\mcp-server.js"]
+    }
+  }
+}
+```
+
+## Claude Code 自动刷新
+
+已支持通过 SessionEnd Hook 在 Claude Code 会话结束时自动触发重新扫描（`~/.claude/settings.json` 的 `hooks.SessionEnd` 调用 `notify-rescan.js`），新会话立即出现在界面，无需手动刷新。
 
 ## 说明
 

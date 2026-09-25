@@ -2,6 +2,13 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)，格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。
 
+## [Unreleased]
+
+### 新增
+
+- MCP Server（`mcp-server.js`，stdio 零依赖）：任何支持 MCP 的 Agent 可通过 `list_projects` / `recall` / `search` 三个工具实时查询本机记忆
+- Claude Code SessionEnd Hook（`notify-rescan.js`）：会话结束时自动触发记忆中枢重新扫描
+
 ## [1.0.0] - 2026-09-25
 
 首个正式版本。
