@@ -15,7 +15,7 @@
 
 | 来源 | 用户级记忆 | 项目级记忆 | 会话记录 |
 |---|---|---|---|
-| Qoder | 支持 | `~/.qoder-cn/projects/<项目>/memory/*.md` | 不支持 |
+| Qoder | 不展示（文件保留在 `~/.qoder-cn/memory/`，由 Qoder 自行管理） | `~/.qoder-cn/projects/<项目>/memory/*.md` | 不支持 |
 | Claude Code | `~/.claude/CLAUDE.md` | 项目 `CLAUDE.md`、`.claude/memory/`、`~/.claude/projects/<项目>/memory/` | 会话 jsonl 提取需求与产出 |
 | Codex | `~/.codex/memories_1.sqlite` | 会话按 cwd 自动归项目 | `~/.codex/sessions` rollout 提取 |
 | Trae | 用户规则（state.vscdb） | 项目 `.trae/rules/*.md` | 不支持 |
@@ -67,11 +67,13 @@ public/         前端单页界面
   "mcpServers": {
     "memory-hub": {
       "command": "node",
-      "args": ["C:\\Users\\zhiyutong\\Desktop\\memory-hub\\mcp-server.js"]
+      "args": ["<memory-hub 所在目录>\\mcp-server.js"]
     }
   }
 }
 ```
+
+注意：MCP Server 是独立进程，自己完成扫描，不需要先启动 `server.js`；网页界面和合并功能则需要 `server.js` 保持运行。
 
 ## Claude Code 自动刷新
 
@@ -80,6 +82,7 @@ public/         前端单页界面
 ## 说明
 
 - 所有数据均保存在本机，扫描使用只读方式打开各工具的数据库
+- 扫描结果缓存 30 秒，手动删除 `AGENTS.md` 等外部变动最迟 30 秒后反映到页面，点「重新扫描」立即刷新
 - 合并只会新建或覆盖 `AGENTS.md` 与指针文件，不会改动任何工具自身的记忆数据
 - 合并覆盖前原文件自动备份为 `AGENTS.md.bak-<时间戳>`
 
