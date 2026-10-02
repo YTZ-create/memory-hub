@@ -2,6 +2,20 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)，格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。
 
+## [1.0.2] - 2026-10-02
+
+### 新增
+
+- 接入小米 MiMo Desktop：扫描来源增至七个
+  - 项目记忆：`~/.local/share/mimocode/memory/projects/<项目>/MEMORY.md`（global 目录视为用户级记忆）
+  - 会话记录：`~/.local/share/mimocode/mimocode.db` 的 session/message/part 表，提取【最初需求】与【最终产出】
+  - 项目归属：直接读 `project.worktree` / `session.directory` 真实路径，无需 slug 反查
+
+### 说明
+
+- 修正 1.0.1 中的错误结论：MiMo 的对话与项目记忆并非只在云端，本地 `mimocode.db` 与 `memory/projects/` 目录存有完整数据（此前扫描的是旧版 Desktop 的产物清单目录，故一无所获）
+- 数据路径参考了开源项目 SessionHarbor 对各 AI 客户端本地存储的梳理
+
 ## [1.0.1] - 2026-09-25
 
 ### 新增
@@ -40,4 +54,6 @@
 - Trae 聊天记录存储于 IndexedDB（LevelDB 格式），暂不支持解析
 - Kimi / ChatGPT / 千问 / 豆包等桌面聊天应用的对话主体在服务端，本地无可扫描内容
 
+[1.0.2]: https://github.com/YTZ-create/memory-hub/releases/tag/v1.0.2
+[1.0.1]: https://github.com/YTZ-create/memory-hub/releases/tag/v1.0.1
 [1.0.0]: https://github.com/YTZ-create/memory-hub/releases/tag/v1.0.0

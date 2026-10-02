@@ -20,6 +20,7 @@
 | Codex | `~/.codex/memories_1.sqlite` | 会话按 cwd 自动归项目 | `~/.codex/sessions` rollout 提取 |
 | Trae | 用户规则（state.vscdb） | 项目 `.trae/rules/*.md` | 不支持 |
 | ZCode | 不支持 | 会话按目录归项目 | 会话正文从 message/part 表提取 |
+| MiMo | `~/.local/share/mimocode/memory/projects/global/MEMORY.md` | mimocode.db 按 `project.worktree` 归项目 | mimocode.db 会话从 message/part 表提取 |
 | Marvis | `~/.marvis/database/memory.db` | 不支持 | 不支持 |
 
 带连字符的项目路径（如 `Agent-5`）无法从 slug 直接还原，采用三级反查：已知真实路径锚点、常见目录枚举匹配、Claude 会话文件提取 cwd。

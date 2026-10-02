@@ -10,7 +10,7 @@ let state = {
 };
 
 const $ = id => document.getElementById(id);
-const SOURCE_LABEL = { qoder: 'Qoder', claude: 'Claude', codex: 'Codex', trae: 'Trae', zcode: 'ZCode', marvis: 'Marvis' };
+const SOURCE_LABEL = { qoder: 'Qoder', claude: 'Claude', codex: 'Codex', trae: 'Trae', zcode: 'ZCode', marvis: 'Marvis', mimo: 'MiMo' };
 
 function toast(msg, isErr) {
   const t = $('toast');
@@ -84,7 +84,7 @@ function renderSidebar() {
   const userCounts = Object.fromEntries(Object.entries(SCAN.user).map(([k, v]) => [k, v.length]));
   const totalUser = Object.values(userCounts).reduce((a, b) => a + b, 0);
   g.appendChild(sideItem('全部全局记忆', totalUser, () => setView({ type: 'user' })));
-  for (const src of ['claude', 'codex', 'trae', 'marvis']) {
+  for (const src of ['claude', 'codex', 'trae', 'marvis', 'mimo']) {
     if (userCounts[src] > 0) {
       g.appendChild(sideItem(SOURCE_LABEL[src] + '（用户级）', userCounts[src], () => setView({ type: 'user', source: src })));
     }
