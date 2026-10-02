@@ -10,6 +10,7 @@
 - 勾选任意条目，合并写入目标项目的 `AGENTS.md`（合并前自动备份原文件）
 - 可选生成指针文件（`CLAUDE.md` / `QODER.md` / `.trae/rules/project_rules.md`），内容指向同目录的 `AGENTS.md`
 - 会话记录自动提取【最初需求】和【最终产出】两条精华，而不是只存截断的标题
+- 勾选会话可导出为可迁移 Markdown（完整对话 + 索引 + 迁移提示词），用于把历史对话迁进别的 Agent 接着聊
 
 ## 支持的扫描来源
 
@@ -42,15 +43,29 @@ node server.js
 3. 选择合并目标项目，点击合并
 4. 项目根目录生成 `AGENTS.md`，各 AI 工具开始工作前先完整阅读该文件
 
+## 导出与迁移（把历史对话搬进别的 Agent）
+
+AGENTS.md 只带得走「精华摘要」。要把整段历史对话搬进另一个 Agent 接着聊，用导出：
+
+1. 勾选要迁移的会话，点「导出为可迁移 Markdown」
+2. 产物落在 `exports/<项目名>-<时间>/`：每个会话一个 `.md`（完整对话，已剥离 system-reminder 等噪音）、`_index.md`（标题 | 文件名 | 消息数）、`迁移提示词.md`
+3. 在**目标项目文件夹**里打开一个 Qoder 会话，把 `迁移提示词.md` 里那行命令粘给它，由它逐个建可续聊的会话
+
+导出支持 MiMo / ZCode（session-message-part 三表）与 Claude Code / Codex（会话 jsonl）的完整正文；纯记忆文件按原文导出，消息数记为 0。
+
+迁移侧的建会话逻辑不在本仓库：`create_chat_session` 是 Qoder 的内置工具，只有 Qoder 里的 Agent 能调，所以这一步靠提示词文件交接。提示词里已写明先建样板核验、再批量（建出的会话无法用工具删除），没装配套技能时也能照着执行。
+
 ## 项目结构
 
 ```
-server.js       HTTP 服务与 API（scan / file / merge）
+server.js       HTTP 服务与 API（scan / file / merge / export）
 lib/scan.js     各来源扫描与 slug 反查
 lib/merge.js    AGENTS.md 生成与指针文件写入
+lib/export.js   会话导出为可迁移 Markdown
 mcp-server.js   MCP Server（供 Agent 实时查询记忆）
 notify-rescan.js  Claude Code SessionEnd Hook 入口
 public/         前端单页界面
+exports/        导出产物（已 gitignore）
 ```
 
 ## MCP 接入（Agent 实时查询记忆）

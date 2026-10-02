@@ -10,6 +10,10 @@
   - 项目记忆：`~/.local/share/mimocode/memory/projects/<项目>/MEMORY.md`（global 目录视为用户级记忆）
   - 会话记录：`~/.local/share/mimocode/mimocode.db` 的 session/message/part 表，提取【最初需求】与【最终产出】
   - 项目归属：直接读 `project.worktree` / `session.directory` 真实路径，无需 slug 反查
+- 会话导出（`lib/export.js`、`/api/export`、界面「导出为可迁移 Markdown」按钮）：勾选的会话导出为完整对话 Markdown + `_index.md` 索引（标题 | 文件名 | 消息数）+ 填好参数的 `迁移提示词.md`，产物在 `exports/`（已 gitignore）
+  - 完整正文支持 MiMo / ZCode（session-message-part 三表）与 Claude Code / Codex（会话 jsonl），自动剥离 `<system-reminder>`、Caveat、工具噪音
+  - 纯记忆文件按原文导出，消息数记为 0
+  - 用于把历史对话迁进别的 Agent 接着聊；建会话动作由目标 Agent 执行（`create_chat_session` 是 Qoder 内置工具，本仓库调不到），提示词中已写明先样板核验再批量
 
 ### 说明
 

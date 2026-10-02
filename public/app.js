@@ -279,6 +279,34 @@ async function doMerge() {
   }
 }
 
+// ---------- 导出（迁移到其它 Agent） ----------
+
+async function doExport() {
+  const btn = $('btn-export');
+  if (!state.selected.size) { toast('请先勾选要导出的条目', true); return; }
+  let label = 'global';
+  if (state.view.type === 'project') {
+    const p = SCAN.projects.find(x => x.dir === state.view.dir);
+    label = p ? p.name : 'project';
+  }
+  btn.disabled = true;
+  try {
+    const data = await api('/api/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ entries: [...state.selected], label })
+    });
+    buttonFeedback(btn, true, '已导出');
+    toast(`已导出 ${data.count} 个文件（共 ${data.totalMessages} 条消息）到：\n${data.dir}`);
+    $('preview').hidden = false;
+    $('preview-title').textContent = '迁移提示词（复制到目标项目的 Qoder 会话里）';
+    $('preview-body').textContent = data.prompt;
+  } catch (err) {
+    buttonFeedback(btn, false, '失败');
+    toast('导出失败：' + err.message, true);
+  }
+}
+
 // ---------- 事件 ----------
 
 $('btn-rescan').onclick = async () => {
@@ -315,6 +343,7 @@ $('check-all').onchange = e => {
   updateSelCount();
 };
 $('btn-merge').onclick = doMerge;
+$('btn-export').onclick = doExport;
 
 // ---------- 启动 ----------
 

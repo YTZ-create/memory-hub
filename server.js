@@ -5,6 +5,7 @@ const path = require('node:path');
 const os = require('node:os');
 const { scanAll } = require('./lib/scan');
 const { writeMerge } = require('./lib/merge');
+const { exportEntries } = require('./lib/export');
 
 const PORT = 7788;
 const HOME = os.homedir();
@@ -103,6 +104,13 @@ const server = http.createServer(async (req, res) => {
       const results = writeMerge(projectDir, entries, body.pointers || {});
       getScan(true);
       return sendJson(res, 200, { ok: true, results, scan: scanCache });
+    }
+    if (url.pathname === '/api/export' && req.method === 'POST') {
+      const body = await readBody(req);
+      const entries = (body.entries || []).map(id => entryIndex.get(id)).filter(Boolean);
+      if (!entries.length) return sendJson(res, 400, { error: '未选择任何记忆条目' });
+      const result = exportEntries(entries, body.label || 'export');
+      return sendJson(res, 200, result);
     }
     if (url.pathname.startsWith('/api/')) return sendJson(res, 404, { error: '未知接口' });
     return serveStatic(req, res, url.pathname);
