@@ -16,6 +16,8 @@ Scan every local AI tool's memory & sessions, merge them into one `AGENTS.md`, q
 
 版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
+> 💡 **看不懂怎么用？** 别啃文档——把这个仓库（或这份 README）扔给你的 AI 助手，说一句「按这个帮我把记忆中枢跑起来」，让它读完替你 `node server.js`、接好 MCP、合并 `AGENTS.md` 或导出会话就行。
+
 ---
 
 ## 目录
